@@ -2,14 +2,20 @@
 #define _MONOCULAR_LINE_DETECTOR_ROS_H_
 
 #include <iostream>
-#include "ros/ros.h"
 
+// ROS related
+#include "ros/ros.h"
 #include "sensor_msgs/Image.h" // for 'image'
 
+// OpenCV related
+#include "cv_bridge/cv_bridge.h"
 #include "opencv2/core.hpp"
 
-#include "cv_bridge/cv_bridge.h"
-
+#include "opencv2/ximgproc/fast_line_detector.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/ximgproc.hpp"
+#include "opencv2/imgcodecs.hpp"
+#include "opencv2/highgui.hpp"
 
 class MonocularLineDetectorROS
 {
@@ -19,7 +25,6 @@ private:
 // Subscribers
 private:
     ros::Subscriber sub_image_;
-
     std::string topicname_image_;
 
 // Publishers
@@ -29,6 +34,7 @@ private:
 // CLASS of the YOUR OWN MODULE
 private:
     // YourLibrary yl_;
+    cv::Ptr<cv::ximgproc::FastLineDetector> fast_line_detector_;
 
 public:
     MonocularLineDetectorROS(const ros::NodeHandle& nh);

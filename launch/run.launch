@@ -1,7 +1,7 @@
 <launch>
-    <arg name="topicname_image"               default="/0/image_raw"/>
+    <arg name="topicname_image"               default="/camera/image_raw"/>
 
-    <node pkg="monocular_line_detection_ros" name="line_detection_node" type="line_detection_node" output="screen">
+    <node pkg="monocular_line_detection_ros" name="line_detector_node" type="line_detector_node" output="screen">
         <param name="topicname_image"      type="string" value="$(arg topicname_image)"/>
     </node>
 

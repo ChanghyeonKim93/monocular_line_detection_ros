@@ -30,7 +30,7 @@ catkin_package(
 )
 
 set(SRC ${SRC} 
-  src/image_node_ros.cpp
+  src/monocular_line_detector_ros.cpp
   src/main.cpp
 )
 
@@ -42,6 +42,6 @@ include_directories( ${catkin_INCLUDE_DIRS} )
 include_directories( ${Eigen_INCLUDE_DIRS} )
 
 # executables
-add_executable (line_detection_node src/main.cpp ${SRC})
-target_link_libraries (line_detection_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${Eigen_LIBRARIES})
+add_executable (line_detector_node src/main.cpp ${SRC})
+target_link_libraries (line_detector_node ${catkin_LIBRARIES} ${OpenCV_LIBRARIES} ${Eigen_LIBRARIES})
 

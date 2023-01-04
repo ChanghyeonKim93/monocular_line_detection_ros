@@ -1,7 +1,7 @@
-#include "image_node_ros.h"
+#include "monocular_line_detector_ros.h"
 
 
-ImageNodeROS::ImageNodeROS(const ros::NodeHandle& nh)
+MonocularLineDetectorROS::MonocularLineDetectorROS(const ros::NodeHandle& nh)
 : nh_(nh), topicname_image_("")
 {
     // Check whether needed parameters exist or not.
@@ -12,12 +12,11 @@ ImageNodeROS::ImageNodeROS(const ros::NodeHandle& nh)
 
 
     // std::cout << topicname_image_ << std::endl;
-    // std::cout << topicname_local_path_ << std::endl;
 
     // Subcribe
     sub_image_ = 
         nh_.subscribe<sensor_msgs::Image>(topicname_image_, 1, 
-                                          &ImageNodeROS::callbackImage, this);
+                                          &MonocularLineDetectorROS::callbackImage, this);
     
     // Publish
     
@@ -28,11 +27,11 @@ ImageNodeROS::ImageNodeROS(const ros::NodeHandle& nh)
     // run
     this->run();
 
-    ROS_INFO_STREAM("ImageNodeROS is constructed.");
+    ROS_INFO_STREAM("MonocularLineDetectorROS is constructed.");
 };
 
 
-void ImageNodeROS::run()
+void MonocularLineDetectorROS::run()
 {
     ros::Rate rate(500);
     while(ros::ok()) {
@@ -42,7 +41,7 @@ void ImageNodeROS::run()
     };
 };
 
-void ImageNodeROS::callbackImage(const sensor_msgs::ImageConstPtr& msg)
+void MonocularLineDetectorROS::callbackImage(const sensor_msgs::ImageConstPtr& msg)
 {
     // msg -> cv::Mat img
     ROS_INFO_STREAM("CALLBACK Image!");
@@ -54,8 +53,6 @@ void ImageNodeROS::callbackImage(const sensor_msgs::ImageConstPtr& msg)
 
     // YOUR algorithm !
     // Do Yourself
-
-
 
 
     // Done.

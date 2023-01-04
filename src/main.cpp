@@ -3,15 +3,16 @@
 #include <iostream>
 #include <string>
 
-#include "image_node_ros.h"
+#include "monocular_line_detector_ros.h"
 
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "line_detection_node");
+    ros::init(argc, argv, "line_detector_node");
     ros::NodeHandle nh("~");
-    ROS_INFO_STREAM("START: \"line_detection_node node\".\n");
+    ROS_INFO_STREAM("START: \"line_detection_node\".\n");
     
-    ImageNodeROS img_node_ros(nh);
+    // Init. monocular line detector
+    MonocularLineDetectorROS mono_line_detector(nh);
  
-    ROS_INFO_STREAM("line_detection_node - TERMINATE.");
+    ROS_INFO_STREAM("TERMINATE: \"line_detection_node\".");
     return -1;
 }

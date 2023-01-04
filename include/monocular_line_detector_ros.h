@@ -1,5 +1,5 @@
-#ifndef _IMAGE_NODE_ROS_
-#define _IMAGE_NODE_ROS_
+#ifndef _MONOCULAR_LINE_DETECTOR_ROS_H_
+#define _MONOCULAR_LINE_DETECTOR_ROS_H_
 
 #include <iostream>
 #include "ros/ros.h"
@@ -11,7 +11,7 @@
 #include "cv_bridge/cv_bridge.h"
 
 
-class ImageNodeROS
+class MonocularLineDetectorROS
 {
 private:
     ros::NodeHandle nh_;
@@ -28,10 +28,10 @@ private:
 
 // CLASS of the YOUR OWN MODULE
 private:
-    // YSLIBRARY ys_;
+    // YourLibrary yl_;
 
 public:
-    ImageNodeROS(const ros::NodeHandle& nh);
+    MonocularLineDetectorROS(const ros::NodeHandle& nh);
 
 private:
     void callbackImage(const sensor_msgs::ImageConstPtr& msg);

@@ -10,19 +10,24 @@ MonocularLineDetectorROS::MonocularLineDetectorROS(const ros::NodeHandle& nh)
     else
         throw std::runtime_error("There is no 'topicname_image'.");
 
-
-    // std::cout << topicname_image_ << std::endl;
-
     // Subcribe
-    sub_image_ = 
-        nh_.subscribe<sensor_msgs::Image>(topicname_image_, 1, 
-                                          &MonocularLineDetectorROS::callbackImage, this);
+    sub_image_ = nh_.subscribe<sensor_msgs::Image>(topicname_image_, 1, 
+                &MonocularLineDetectorROS::callbackImage, this);
     
     // Publish
-    
+    // 정현이와 상의해서 결정. 어떤 정보까지 만들어서 보내줄지.
 
-    // Construct YOUR library
-    // Create FLD detector
+    /* Idea
+        
+        - 빨강 - 초록 (청록)
+        - 남색 - 노랑
+        - 보라 - 연두
+        - 빨강 - 검정 도 대비가 괜찮음. (사람한테만? 명시성)
+
+    */
+
+
+    // Create Fast Line Detector Object
     // Param               Default value   Description
     // length_threshold    10            - Segments shorter than this will be discarded
     // distance_threshold  1.41421356    - A point placed from a hypothesis line
@@ -37,12 +42,13 @@ MonocularLineDetectorROS::MonocularLineDetectorROS(const ros::NodeHandle& nh)
     //                                     image is taken as an edge image.
     // do_merge            false         - If true, incremental merging of segments
     //                                     will be performed
-    int   length_threshold = 20;
+    int   length_threshold   = 40;
     float distance_threshold = 1.41421356f;
-    double canny_th1 = 40.0;
-    double canny_th2 = 80.0;
-    int canny_aperture_size = 3; // sobel filter size
-    bool do_merge = false;
+    double canny_th1         = 40.0;
+    double canny_th2         = 80.0;
+    int canny_aperture_size  = 3; // sobel filter size
+    bool do_merge            = true;
+
     this->fast_line_detector_ = cv::ximgproc::createFastLineDetector(length_threshold,
             distance_threshold, canny_th1, canny_th2, canny_aperture_size,
             do_merge);
@@ -68,6 +74,7 @@ void MonocularLineDetectorROS::callbackImage(const sensor_msgs::ImageConstPtr& m
 {
     // msg -> cv::Mat img
     ROS_INFO_STREAM("CALLBACK Image!");
+    timer::tic();
     cv_bridge::CvImagePtr cv_ptr;
     cv_ptr = cv_bridge::toCvCopy(msg, msg->encoding); 
 
@@ -81,8 +88,16 @@ void MonocularLineDetectorROS::callbackImage(const sensor_msgs::ImageConstPtr& m
     // Detect lines on image.
     std::vector<cv::Vec4f> lines;
     fast_line_detector_->detect(img_gray, lines);
+    
+    for(const cv::Vec4f& line : lines)
+    {
+        cv::Point2f p0(line(0),line(1));
+        cv::Point2f p1(line(2),line(3));
+    }
 
-    ROS_INFO_STREAM("# of detected lines: " << lines.size() ); // 1.5 ms
+    timer::toc(1); // 2 ~ 9 ms varying
+
+    ROS_INFO_STREAM("# of detected lines: " << lines.size() );
 
     // Image showing
     for(const cv::Vec4f& line : lines)

@@ -17,6 +17,9 @@
 #include "opencv2/imgcodecs.hpp"
 #include "opencv2/highgui.hpp"
 
+// Custom library
+#include "timer.h"
+
 class MonocularLineDetectorROS
 {
 private:

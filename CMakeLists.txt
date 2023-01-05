@@ -31,7 +31,7 @@ catkin_package(
 
 set(SRC ${SRC} 
   src/monocular_line_detector_ros.cpp
-  src/main.cpp
+  src/timer.cpp
 )
 
 set(includeDirs ${includeDirs} ${CMAKE_CURRENT_BINARY_DIR})
